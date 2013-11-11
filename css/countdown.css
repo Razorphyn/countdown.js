@@ -1,0 +1,8 @@
+/* ---------- TIMER ---------- */
+.timer-area {text-align: center;padding: 5em 0 0;display:block;position:relative;height:180px;clear:both}
+.timer-area h1 {color: white}
+ul#countdown {display:block;position:relative;margin:0 auto;width:425px;height:100%}
+ul#countdown li {display: block;background: transparent url('images/timer-piece.png') no-repeat left top;width: 104px;margin-bottom: 4em;text-align: center;position:relative;float:left;}
+ul#countdown li span {font-size: 3em;font-weight: bold;color: #1f2225;height: 108px;line-height: 108px;position: relative}
+ul#countdown li span::before {content: '';width: 100%;height: 1px;position: absolute;top: 31px}
+ul#countdown li p.timeRefDays,ul#countdown li p.timeRefHours,ul#countdown li p.timeRefMinutes,ul#countdown li p.timeRefSeconds {margin-top: 1em;color: #909091;text-transform: uppercase;font-size: .875em}
