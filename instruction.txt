@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
+Head:
 
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<meta http-equiv="Pragma" content="no-cache"/>
-<meta http-equiv="expires" content="0"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0" />
-	
 <link rel="stylesheet" type="text/css" href="css/countdown.css"/>
 <script type="text/javascript"  src="js/jquery-1.10.2.js"></script>
 <script type="text/javascript"  src="js/countdown.js"></script>
 
-</head>
-<body>
+
+Body:
+
 <div class="timer-area">
 	<ul id="countdown">
 		<li><span class="days">00</span><p class="timeRefDays">Days</p></li>
@@ -21,12 +15,14 @@
 		<li><span class="seconds">00</span><p class="timeRefSeconds">Seconds</p></li>
 	</ul>
 </div>
-<script>
-	$(document).ready(function() {
 
-		$("#countdown").countdown({date:'11/11/2013 18:01:30',format:'on',callback:function(){window.location='http://razorphyn.com'}},{active:'off',offset:-11});
-	});
-	</script>
-</body>
 
-</html>
+
+Script tag:
+
+$("#countdown").countdown({date:'dd/mm/yyyy hh:mm:ss',format:'on'},function(){window.location = "redirect_url";},{active:'on/off',offset:number});
+
+change function(){window.location = "redirect_url";} to null to disable redirect
+
+Example script call:
+$("#countdown").countdown({date:'11/12/2013 19:50:00',format:'on'},function(){window.location = "http://razorphyn.com/products/comingsoon/admin/";},{active:'on',offset:-11});

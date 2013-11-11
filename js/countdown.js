@@ -1,9 +1,9 @@
 (function (a) {
-    a.fn.countdown = function (c, d, f) {
+    a.fn.countdown = function (c, f) {
         function e() {
             currentDate = Math.floor((new Date().getTime()-g.offset)/1E3);
             if(eventDate < currentDate){
-				null != d && d.call(this), 
+				null != b.callback && (b.callback).call(this), 
 				"undefined" != typeof interval && clearInterval(interval)
 			}
 			else{
@@ -31,15 +31,16 @@
 			}
         }
         var b = {
-            date: null,// Date in this format: 'mm/dd/yyyy hh:mm:ss'
-            format: null// Print the number: 1 13 34... or format in this way: 01 02 12 34..
+            date		:	null,	// Date in this format: 'mm/dd/yyyy hh:mm:ss'
+            format		:	null,	// Print the number: 1 13 34... or format in this way: 01 02 12 34..
+			callback	:	null	//Callback on countdown finish, Example: redirect
         };
 		var g = {
-            active: 'off',	//Activate the worldwide sync
-            offset: 0		//The UTC hour difference from the location of the site and Europe/London timezone
-							//Example: you want to launch the site on 11/13/2013 12:35:50 Australia/Sydney time, in this case the value is -11
-							//Example: you want to launch the site on 11/13/2013 12:35:50 America/New York time, in this case the value is 11
-							//The question is: London is [positive or negative number] hours ahead of [location]; however just try
+            active	:	'off',	//Activate the worldwide sync
+            offset	:	0		//The UTC hour difference from the location of the site and Europe/London timezone
+								//Example: you want to launch the site on 11/13/2013 12:35:50 Australia/Sydney time, in this case the value is -11
+								//Example: you want to launch the site on 11/13/2013 12:35:50 America/New York time, in this case the value is 5
+								//The question is: London is [positive or negative number] hours ahead of [location]; however just try
         };
         c && a.extend(b, c);
         f && a.extend(g, f);
