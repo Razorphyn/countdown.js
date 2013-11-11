@@ -27,12 +27,18 @@ Simple Jquery Countdown with redirect and timezone
 
 
 #### Script tag:
+
 ```javascript
-$("#countdown").countdown({date:'dd/mm/yyyy hh:mm:ss',format:'on'},function(){window.location = "redirect_url";},{active:'on/off',offset:number});
+$("#countdown").countdown({date:'dd/mm/yyyy hh:mm:ss',format:'on/off', callback: function },{active:'on/off',offset:number});
 ```
-change function(){window.location = "redirect_url";} to null to disable redirect
+change
+
+``` function(){window.location = "redirect_url";} ``` to ```null``` to disable redirect
 
 Example script call:
 ```javascript
-$("#countdown").countdown({date:'11/12/2013 19:50:00',format:'on'},function(){window.location = "http://razorphyn.com/products/comingsoon/admin/";},{active:'on',offset:-11});
+$("#countdown").countdown({date:'11/12/2013 19:50:00',format:'on', callback: function(){window.location = "http://razorphyn.com/products/comingsoon/admin/"}},{active:'on',offset:-11});
 ```
+For an exmplaination open ```countdown.js```
+
+
