@@ -57,9 +57,6 @@ Knob Demo Code:
 ```javascript
 $("#countdown").countdown({knob: false/true, date:'dd/mm/yyyy hh:mm:ss',format:'on/off', callback: function },{active:'on/off',offset:number});
 ```
-change
-
-``` function(){window.location = "redirect_url";} ``` to ```null``` to disable redirect
 
 Example script call:
 ```javascript
