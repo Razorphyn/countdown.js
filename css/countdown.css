@@ -1,5 +1,5 @@
 /* ---------- TIMER ---------- */
-.timer-area {text-align: center;padding: 5em 0 0;display:block;position:relative;height:180px;clear:both}
+.timer-area {text-align: center;padding: 5em 0 0;display:block;position:relative;height:180px;clear:both;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
 .timer-area h1 {color: white}
 ul#countdown {display:block;position:relative;margin:0 auto;width:425px;height:100%}
 ul#countdown li {display: block;background: transparent url('images/timer-piece.png') no-repeat left top;width: 104px;margin-bottom: 4em;text-align: center;position:relative;float:left;}

@@ -24,15 +24,24 @@
 					minutes = 2 <= String(minutes).length ? minutes : "0" + minutes, 
 					seconds = 2 <= String(seconds).length ? seconds : "0" + seconds
 				}
-				thisEl.find(".days").text(days), 
-				thisEl.find(".hours").text(hours), 
-				thisEl.find(".minutes").text(minutes), 
-				thisEl.find(".seconds").text(seconds)
+				if(true!=b.knob){
+					thisEl.find(".days").text(days), 
+					thisEl.find(".hours").text(hours), 
+					thisEl.find(".minutes").text(minutes), 
+					thisEl.find(".seconds").text(seconds)
+				}
+				else{
+					input_day.val(days).trigger('change'),
+					input_hour.val(hours).trigger('change'), 
+					input_minute.val(minutes).trigger('change'),
+					input_second.val(seconds).trigger('change')
+				}
 			}
         }
         var b = {
-            date		:	null,	// Date in this format: 'mm/dd/yyyy hh:mm:ss'
-            format		:	null,	// Print the number: 1 13 34... or format in this way: 01 02 12 34..
+			knob		:	false,	//Use Knob true/false
+            date		:	null,	//Date in this format: 'mm/dd/yyyy hh:mm:ss'
+            format		:	'on',	//Print the number: 1 13 34... or format in this way: 01 02 12 34..
 			callback	:	null	//Callback on countdown finish, Example: redirect
         };
 		var g = {
@@ -51,10 +60,30 @@
 		if(g.active=='on')
 			g.offset=(parseInt(g.offset)*60*60*1000)-new Date().getTimezoneOffset()*60*1000;
         thisEl = a(this);
+
+		if(b.knob==true && isCanvasSupported){
+			var input_day=thisEl.find(".days"),
+				input_hour=thisEl.find(".hours"),
+				input_minute=thisEl.find(".minutes"),
+				input_second=thisEl.find(".seconds");
+
+			input_day.knob({'min':0}),
+			input_hour.knob({'min':0,'max':23}),
+			input_minute.knob({'min':0,'max':59}),
+			input_second.knob({'min':0,'max':59})
+		}
+		else{
+			b.knob=false;
+			thisEl.html('<ul id="countdown"><li><span class="days">00</span><p class="timeRefDays">Days</p></li><li><span class="hours">00</span><p class="timeRefHours">Hours</p></li><li><span class="minutes">00</span><p class="timeRefMinutes">Minutes</p></li><li><span class="seconds">00</span><p class="timeRefSeconds">Seconds</p></li></ul>');
+		}
         e();
         interval = setInterval(e, 1E3);
 		if(isNaN(eventDate)){
 			alert("Invalid date. Here's an example: 12 Tuesday 2012 17:30:00"), clearInterval(interval)
 		}
     }
+	function isCanvasSupported(){
+		var elem = document.createElement('canvas');
+		return !!(elem.getContext && elem.getContext('2d'));
+	}
 })(jQuery);

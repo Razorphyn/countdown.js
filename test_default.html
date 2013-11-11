@@ -8,12 +8,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 	
 <link rel="stylesheet" type="text/css" href="css/countdown.css"/>
+
 <script type="text/javascript"  src="js/jquery-1.10.2.js"></script>
 <script type="text/javascript"  src="js/countdown.js"></script>
 
 </head>
 <body>
-<div class="timer-area">
+<div class="timer-area" >
 	<ul id="countdown">
 		<li><span class="days">00</span><p class="timeRefDays">Days</p></li>
 		<li><span class="hours">00</span><p class="timeRefHours">Hours</p></li>
@@ -24,7 +25,7 @@
 <script>
 	$(document).ready(function() {
 
-		$("#countdown").countdown({date:'11/11/2013 18:01:30',format:'on',callback:function(){window.location='http://razorphyn.com'}},{active:'off',offset:-11});
+		$("#countdown").countdown({knob: false,date:'11/12/2013 18:01:30',format:'on'/*,callback:function(){window.location='http://razorphyn.com'}*/},{active:'off',offset:-11});
 	});
 	</script>
 </body>

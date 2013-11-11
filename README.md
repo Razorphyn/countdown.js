@@ -11,9 +11,16 @@ Simple Jquery Countdown with redirect and timezone
 <script type="text/javascript"  src="js/jquery-1.10.2.js"></script>
 <script type="text/javascript"  src="js/countdown.js"></script>
 ```
-
+if you want to use Knob:
+```
+<link rel="stylesheet" type="text/css" href="css/countdown.css"/>
+<script type="text/javascript"  src="js/jquery-1.10.2.js"></script>
+<script type="text/javascript"  src="js/jquery.knob.js"></script>
+<script type="text/javascript"  src="js/countdown.js"></script>
+```
 #### Body:
 
+Normal Countdown
 ```html
 <div class="timer-area">
 	<ul id="countdown">
@@ -24,12 +31,31 @@ Simple Jquery Countdown with redirect and timezone
 	</ul>
 </div>
 ```
+Knob (automatic fallback)
+More information about Knob: [Read more](https://github.com/aterrien/jQuery-Knob)
+```html
+<div id="countdown">
+	<input class="days" type="text" value="0" data-readonly="true" />
+	<input class="hours" type="text" value="0" data-readonly="true"  />
+	<input class="minutes" type="text" value="0" data-readonly="true"  />
+	<input class="seconds" type="text" value="0" data-readonly="true"  />
+</div>
+```
+Knob Demo Code:
+```html
+<div id="countdown">
+	<input class="days" type="text" value="0" data-readonly="true" data-thickness=".0" />
+	<input class="hours" type="text" value="0" data-readonly="true" data-thickness=".0" />
+	<input class="minutes" type="text" value="0" data-readonly="true" data-thickness=".0" />
+	<input class="seconds" type="text" value="0" data-readonly="true" data-thickness=".0" />
+</div>
+```
 
 
 #### Script tag:
 
 ```javascript
-$("#countdown").countdown({date:'dd/mm/yyyy hh:mm:ss',format:'on/off', callback: function },{active:'on/off',offset:number});
+$("#countdown").countdown({knob: false/true, date:'dd/mm/yyyy hh:mm:ss',format:'on/off', callback: function },{active:'on/off',offset:number});
 ```
 change
 
@@ -37,8 +63,8 @@ change
 
 Example script call:
 ```javascript
-$("#countdown").countdown({date:'11/12/2013 19:50:00',format:'on', callback: function(){window.location = "http://razorphyn.com/products/comingsoon/admin/"}},{active:'on',offset:-11});
+$("#countdown").countdown({knob:false, date:'11/12/2013 19:50:00',format:'on', callback: function(){window.location = "http://razorphyn.com/products/comingsoon/admin/"}},{active:'on',offset:-11});
 ```
-For an exmplaination open ```countdown.js```
+For an explanation open ```countdown.js```
 
 
