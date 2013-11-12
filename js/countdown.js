@@ -15,7 +15,7 @@
     $.fn.countdown = function (c, f) {
         var b = {
 			knob		:	false,	//Use Knob true/false
-			option		:	{day:{},hour:{},minute:{},second:{}},	//Knob Optoins
+			option		:	{global:{max:null},day:{},hour:{},minute:{},second:{}},	//Knob Optoins
             date		:	null,	//Date in this format: 'mm/dd/yyyy hh:mm:ss'
             format		:	true,	//Print the number: 1 13 34... or format in this way: 01 02 12 34..
 			callback	:	null	//Callback on countdown finish, Example: redirect
@@ -93,8 +93,7 @@
 					input_second.text(seconds)
 				}
 				else{
-					input_day.trigger('configure',{"max":days});
-					input_day.val(days).trigger('change'),
+					input_day.val(days+' Days').trigger('change'),
 					input_hour.val(hours).trigger('change'), 
 					input_minute.val(minutes).trigger('change'),
 					input_second.val(seconds).trigger('change')
