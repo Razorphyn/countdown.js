@@ -67,10 +67,10 @@
         };
         c && a.extend(b, c);
         f && a.extend(g, f);
-		eventDate = (new Date(b.date).getTime())/1E3;
+		var eventDate = (new Date(b.date).getTime())/1E3;
 		if(g.timezone==true)
 			g.offset=(parseInt(g.offset)*60*60*1000)-new Date().getTimezoneOffset()*60*1000;
-        thisEl = a(this);
+        var thisEl = a(this);
 
 		if(0!=b.knob && isCanvasSupported){
 			var input_day=thisEl.find(".days"),
@@ -88,7 +88,7 @@
 			thisEl.html('<ul id="countdown"><li><span class="days">00</span><p class="timeRefDays">Days</p></li><li><span class="hours">00</span><p class="timeRefHours">Hours</p></li><li><span class="minutes">00</span><p class="timeRefMinutes">Minutes</p></li><li><span class="seconds">00</span><p class="timeRefSeconds">Seconds</p></li></ul>');
 		}
         e();
-        interval = setInterval(e, 1E3);
+        var interval = setInterval( function(){e()}, 1E3);
 		if(isNaN(eventDate)){
 			alert("Invalid date mm/dd/yyyy. Here's an example: 12/25/2013 17:30:00"), clearInterval(interval)
 		}
