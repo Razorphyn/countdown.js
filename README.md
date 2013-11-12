@@ -1,7 +1,7 @@
 countdown.js
 ============
 
-Simple Jquery Countdown with redirect and timezone
+Simple Jquery Countdown with redirect, time zone and double skin with fallback
 
 ## DEMO
 
@@ -24,49 +24,68 @@ if you want to use Knob:
 ```
 #### Body:
 
-Normal Countdown
 ```html
-<div class="timer-area">
-	<ul id="countdown">
-		<li><span class="days">00</span><p class="timeRefDays">Days</p></li>
-		<li><span class="hours">00</span><p class="timeRefHours">Hours</p></li>
-		<li><span class="minutes">00</span><p class="timeRefMinutes">Minutes</p></li>
-		<li><span class="seconds">00</span><p class="timeRefSeconds">Seconds</p></li>
-	</ul>
-</div>
+<div class="#countdown"></div>
 ```
-Knob (automatic fallback)
-More information about Knob: [Read more](https://github.com/aterrien/jQuery-Knob)
-```html
-<div id="countdown">
-	<input class="days" type="text" value="0" data-readonly="true" />
-	<input class="hours" type="text" value="0" data-readonly="true"  />
-	<input class="minutes" type="text" value="0" data-readonly="true"  />
-	<input class="seconds" type="text" value="0" data-readonly="true"  />
-</div>
-```
-Knob Demo Code:
-```html
-<div id="countdown">
-	<input class="days" type="text" value="0" data-readonly="true" data-thickness=".0" />
-	<input class="hours" type="text" value="0" data-readonly="true" data-thickness=".0" />
-	<input class="minutes" type="text" value="0" data-readonly="true" data-thickness=".0" />
-	<input class="seconds" type="text" value="0" data-readonly="true" data-thickness=".0" />
-</div>
-```
-
 
 #### Script tag:
 
 ```javascript
-$("#countdown").countdown({knob: false/true, date:'dd/mm/yyyy hh:mm:ss',format:true/false, callback: function },{timezone:false/true,offset:UTC_Offset});
+$("#countdown_knob").countdown(
+								{
+									knob: false/true,
+									option:{
+										global:{option:value},
+										day:{option:value},
+										hour:{option:value},
+										minute:{option:value},
+										second:{option:value}
+									},
+									date:'mm/dd/yyyy hh:mm:ss',
+									format:true/false,
+									callback:function(){}
+								},
+								{
+									timezone:false/true,
+									offset: UTC_Offset
+								}
+							);
 ```
 
-Example script call:
+#### Example script call:
 ```javascript
-$("#countdown").countdown({knob:false, date:'11/12/2013 19:50:00',format:true, callback: function(){window.location = "http://razorphyn.com/products/comingsoon/admin/"}},{timezone:true,offset:11}); //Australian Eastern Daylight Time
-$("#countdown").countdown({knob:false, date:'12/25/2013 11:32:23',format:true, callback: function(){window.location = "http://razorphyn.com/products/comingsoon/admin/"}},{timezone:true,offset:-5}); //Central Daylight Time (North America)
+//Default/Fallback Skin
+$("#countdown").countdown(	
+								{
+									date:'11/12/2013 18:01:30',
+									format:true,
+									callback:function(){alert('Def Ready')}
+								},
+								{
+									timezone:false,
+									offset:0
+								}
+							);
+//Use Knob Skin
+$("#countdown").countdown(
+							{
+								knob: true,
+								option:{
+									global:{thickness:0.1},
+									day:{thickness:0.2},
+									hour:{thickness:0.4},
+									minute:{thickness:0.7},
+									second:{thickness:.0}
+								},
+								date:'05/19/2014 18:01:30',
+								format:true,
+								callback:function(){alert('Knob Ready')}
+							},
+							{
+								timezone:true,
+								offset:6
+							}
+						);
 ```
-For an explanation open ```countdown.js``` and for a list UTC read UTC.txt
-
-
+For more details open ```countdown.js``` and for a list UTC read UTC.txt
+More information about Knob: [Read more](https://github.com/aterrien/jQuery-Knob)

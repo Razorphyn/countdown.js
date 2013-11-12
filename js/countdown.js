@@ -11,9 +11,58 @@
  *
  *
  */
-(function (a) {
-    a.fn.countdown = function (c, f) {
-        function e() {
+(function ($) {
+    $.fn.countdown = function (c, f) {
+        var b = {
+			knob		:	false,	//Use Knob true/false
+			option		:	{day:{},hour:{},minute:{},second:{}},	//Knob Optoins
+            date		:	null,	//Date in this format: 'mm/dd/yyyy hh:mm:ss'
+            format		:	true,	//Print the number: 1 13 34... or format in this way: 01 02 12 34..
+			callback	:	null	//Callback on countdown finish, Example: redirect
+        };
+		var g = {
+            timezone	:	false,	//Activate the worldwide sync
+            offset		:	0		//The UTC offset, you can find your UTC from UTC.txt, just copy and paste
+        };
+        c && $.extend(b, c);
+        f && $.extend(g, f);
+		var eventDate = (new Date(b.date).getTime())/1E3;
+		if(g.timezone==true)
+			g.offset=(parseInt(g.offset)*60*60*1000)+new Date().getTimezoneOffset()*60*1000;
+		
+		var thisEl = $(this);
+		if(0!=b.knob && isCanvasSupported){
+			thisEl.append('<div class="timer-area" ><input class="days" type="text" value="0" data-readonly="true" /><input class="hours" type="text" value="0" data-readonly="true"  /><input class="minutes" type="text" value="0" data-readonly="true" /><input class="seconds" type="text" value="0" data-readonly="true" /></div>');
+
+			b.option.day=$.extend(true, {}, c.option.global, c.option.day);
+			b.option.hour=$.extend(true,{}, c.option.global, c.option.hour);
+			b.option.minute=$.extend(true, {}, c.option.global, c.option.minute);
+			b.option.second=$.extend(true, {}, c.option.global, c.option.second);
+			
+			thisEl.find(".days").knob(b.option.day),
+			thisEl.find(".hours").knob(b.option.hour),
+			thisEl.find(".minutes").knob(b.option.minute),
+			thisEl.find(".seconds").knob(b.option.second)
+		}
+		else if(0!=b.knob && !isCanvasSupported){
+			b.knob=0;
+			thisEl.html('<ul class="countdown"><li><span class="days">00</span><p class="timeRefDays">Days</p></li><li><span class="hours">00</span><p class="timeRefHours">Hours</p></li><li><span class="minutes">00</span><p class="timeRefMinutes">Minutes</p></li><li><span class="seconds">00</span><p class="timeRefSeconds">Seconds</p></li></ul>');
+		}
+		else
+			thisEl.append('<div class="timer-area"><ul class="countdown" ><li><span class="days">00</span><p class="timeRefDays">Days</p></li><li><span class="hours">00</span><p class="timeRefHours">Hours</p></li><li><span class="minutes">00</span><p class="timeRefMinutes">Minutes</p></li><li><span class="seconds">00</span><p class="timeRefSeconds">Seconds</p></li></ul></div>');
+		
+		var	input_day=thisEl.find(".days"),
+			input_hour=thisEl.find(".hours"),
+			input_minute=thisEl.find(".minutes"),
+			input_second=thisEl.find(".seconds");
+        e();
+        var interval = setInterval( function(){e()}, 1E3);
+		if(isNaN(eventDate)){
+			alert("Invalid date mm/dd/yyyy. Here's an example: 12/25/2013 17:30:00"), clearInterval(interval)
+		}
+		
+		//Countdown Function
+		function e() {
             currentDate = Math.floor((new Date().getTime()-g.offset)/1E3);
             if(eventDate < currentDate){
 				null != b.callback && (b.callback).call(this), 
@@ -38,10 +87,10 @@
 						minutes = 2 <= String(minutes).length ? minutes : "0" + minutes, 
 						seconds = 2 <= String(seconds).length ? seconds : "0" + seconds
 					}
-					thisEl.find(".days").text(days), 
-					thisEl.find(".hours").text(hours), 
-					thisEl.find(".minutes").text(minutes), 
-					thisEl.find(".seconds").text(seconds)
+					input_day.text(days), 
+					input_hour.text(hours), 
+					input_minute.text(minutes), 
+					input_second.text(seconds)
 				}
 				else{
 					input_day.trigger('configure',{"max":days});
@@ -52,43 +101,6 @@
 				}
 			}
         }
-        var b = {
-			knob		:	false,	//Use Knob true/false
-            date		:	null,	//Date in this format: 'mm/dd/yyyy hh:mm:ss'
-            format		:	true,	//Print the number: 1 13 34... or format in this way: 01 02 12 34..
-			callback	:	null	//Callback on countdown finish, Example: redirect
-        };
-		var g = {
-            timezone	:	false,	//Activate the worldwide sync
-            offset		:	0		//The UTC offset, you can find your UTC from UTC.txt, just copy and paste
-        };
-        c && a.extend(b, c);
-        f && a.extend(g, f);
-		var eventDate = (new Date(b.date).getTime())/1E3;
-		if(g.timezone==true)
-			g.offset=(parseInt(g.offset)*60*60*1000)+new Date().getTimezoneOffset()*60*1000;
-        var thisEl = a(this);
-
-		if(0!=b.knob && isCanvasSupported){
-			var input_day=thisEl.find(".days"),
-				input_hour=thisEl.find(".hours"),
-				input_minute=thisEl.find(".minutes"),
-				input_second=thisEl.find(".seconds");
-
-			input_day.knob({'min':0}),
-			input_hour.knob({'min':0,'max':23}),
-			input_minute.knob({'min':0,'max':59}),
-			input_second.knob({'min':0,'max':59})
-		}
-		else if(0!=b.knob && !isCanvasSupported){
-			b.knob=0;
-			thisEl.html('<ul id="countdown"><li><span class="days">00</span><p class="timeRefDays">Days</p></li><li><span class="hours">00</span><p class="timeRefHours">Hours</p></li><li><span class="minutes">00</span><p class="timeRefMinutes">Minutes</p></li><li><span class="seconds">00</span><p class="timeRefSeconds">Seconds</p></li></ul>');
-		}
-        e();
-        var interval = setInterval( function(){e()}, 1E3);
-		if(isNaN(eventDate)){
-			alert("Invalid date mm/dd/yyyy. Here's an example: 12/25/2013 17:30:00"), clearInterval(interval)
-		}
     }
 	function isCanvasSupported(){
 		var elem = document.createElement('canvas');
