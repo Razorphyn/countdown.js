@@ -55,12 +55,12 @@ Knob Demo Code:
 #### Script tag:
 
 ```javascript
-$("#countdown").countdown({knob: false/true, date:'dd/mm/yyyy hh:mm:ss',format:'on/off', callback: function },{active:'on/off',offset:number});
+$("#countdown").countdown({knob: false/true, date:'dd/mm/yyyy hh:mm:ss',format:true/false, callback: function },{timezone:false/true,offset:number});
 ```
 
 Example script call:
 ```javascript
-$("#countdown").countdown({knob:false, date:'11/12/2013 19:50:00',format:'on', callback: function(){window.location = "http://razorphyn.com/products/comingsoon/admin/"}},{active:'on',offset:-11});
+$("#countdown").countdown({knob:false, date:'11/12/2013 19:50:00',format:true, callback: function(){window.location = "http://razorphyn.com/products/comingsoon/admin/"}},{timezone:true,offset:-11});
 ```
 For an explanation open ```countdown.js```
 

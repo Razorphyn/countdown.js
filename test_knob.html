@@ -17,16 +17,15 @@
 <body>
 <div class="timer-area" >
 	<div id="countdown">
-		<input class="days" type="text" value="0" data-readonly="true" data-thickness=".0" />
-		<input class="hours" type="text" value="0" data-readonly="true" data-thickness=".0" />
-		<input class="minutes" type="text" value="0" data-readonly="true" data-thickness=".0" />
-		<input class="seconds" type="text" value="0" data-readonly="true" data-thickness=".0" />
+		<input class="days" type="text" value="0" data-readonly="true" data-thickness=".0"/>
+		<input class="hours" type="text" value="0" data-readonly="true" data-thickness=".0"  />
+		<input class="minutes" type="text" value="0" data-readonly="true" data-thickness=".0"/>
+		<input class="seconds" type="text" value="0" data-readonly="true" data-thickness=".0"  />
 	</div>
 </div>
 <script>
 	$(document).ready(function() {
-
-		$("#countdown").countdown({knob: true,date:'11/12/2013 18:01:30',format:'on'/*,callback:function(){window.location='http://razorphyn.com'}*/},{active:'off',offset:-11});
+		$("#countdown").countdown({knob: true,date:'11/13/2013 18:01:30',format:true,callback:function(){alert('Ready')}},{timezone:true,offset:-11});
 	});
 	</script>
 </body>

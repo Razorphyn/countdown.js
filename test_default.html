@@ -24,8 +24,7 @@
 </div>
 <script>
 	$(document).ready(function() {
-
-		$("#countdown").countdown({knob: false,date:'11/12/2013 18:01:30',format:'on'/*,callback:function(){window.location='http://razorphyn.com'}*/},{active:'off',offset:-11});
+		$("#countdown").countdown({knob: false,date:'11/12/2013 18:01:30',format:true,callback:function(){alert('Ready')}},{timezone:false,offset:-11});
 	});
 	</script>
 </body>
