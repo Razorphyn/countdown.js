@@ -44,6 +44,7 @@
 					thisEl.find(".seconds").text(seconds)
 				}
 				else{
+					input_day.trigger('configure',{"max":days});
 					input_day.val(days).trigger('change'),
 					input_hour.val(hours).trigger('change'), 
 					input_minute.val(minutes).trigger('change'),
