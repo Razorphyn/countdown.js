@@ -3,6 +3,10 @@ countdown.js
 
 Simple Jquery Countdown with redirect and timezone
 
+## DEMO
+
+[DEMO LINK](//razorphyn.com/products/countdown/)
+
 ## Instructions
 
 #### Head:
