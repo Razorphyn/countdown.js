@@ -60,16 +60,13 @@
         };
 		var g = {
             timezone	:	false,	//Activate the worldwide sync
-            offset	:	0		//The UTC hour difference from the location of the site and Europe/London timezone
-								//Example: you want to launch the site on 11/13/2013 12:35:50 Australia/Sydney time, in this case the value is -11
-								//Example: you want to launch the site on 11/13/2013 12:35:50 America/New York time, in this case the value is 5
-								//The question is: London is [positive or negative number] hours ahead of [location]; however just try
+            offset		:	0		//The UTC offset, you can find your UTC from UTC.txt, just copy and paste
         };
         c && a.extend(b, c);
         f && a.extend(g, f);
 		var eventDate = (new Date(b.date).getTime())/1E3;
 		if(g.timezone==true)
-			g.offset=(parseInt(g.offset)*60*60*1000)-new Date().getTimezoneOffset()*60*1000;
+			g.offset=(parseInt(g.offset)*60*60*1000)+new Date().getTimezoneOffset()*60*1000;
         var thisEl = a(this);
 
 		if(0!=b.knob && isCanvasSupported){

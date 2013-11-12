@@ -59,13 +59,14 @@ Knob Demo Code:
 #### Script tag:
 
 ```javascript
-$("#countdown").countdown({knob: false/true, date:'dd/mm/yyyy hh:mm:ss',format:true/false, callback: function },{timezone:false/true,offset:number});
+$("#countdown").countdown({knob: false/true, date:'dd/mm/yyyy hh:mm:ss',format:true/false, callback: function },{timezone:false/true,offset:UTC_Offset});
 ```
 
 Example script call:
 ```javascript
-$("#countdown").countdown({knob:false, date:'11/12/2013 19:50:00',format:true, callback: function(){window.location = "http://razorphyn.com/products/comingsoon/admin/"}},{timezone:true,offset:-11});
+$("#countdown").countdown({knob:false, date:'11/12/2013 19:50:00',format:true, callback: function(){window.location = "http://razorphyn.com/products/comingsoon/admin/"}},{timezone:true,offset:11}); //Australian Eastern Daylight Time
+$("#countdown").countdown({knob:false, date:'12/25/2013 11:32:23',format:true, callback: function(){window.location = "http://razorphyn.com/products/comingsoon/admin/"}},{timezone:true,offset:-5}); //Central Daylight Time (North America)
 ```
-For an explanation open ```countdown.js```
+For an explanation open ```countdown.js``` and for a list UTC read UTC.txt
 
 
