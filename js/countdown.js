@@ -82,7 +82,7 @@
 			input_minute.knob({'min':0,'max':59}),
 			input_second.knob({'min':0,'max':59})
 		}
-		else{
+		else if(0!=b.knob && !isCanvasSupported){
 			b.knob=0;
 			thisEl.html('<ul id="countdown"><li><span class="days">00</span><p class="timeRefDays">Days</p></li><li><span class="hours">00</span><p class="timeRefHours">Hours</p></li><li><span class="minutes">00</span><p class="timeRefMinutes">Minutes</p></li><li><span class="seconds">00</span><p class="timeRefSeconds">Seconds</p></li></ul>');
 		}

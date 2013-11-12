@@ -14,8 +14,10 @@
 
 </head>
 <body>
+<img src='css/logo/logo.png' style='display:block;margin:0 auto;position:relative' />
+<p style='text-align:center;font-size:2em;font-weight:700'>Default/Callback Skin</h2>
 <div class="timer-area" >
-	<ul id="countdown">
+	<ul class="countdown">
 		<li><span class="days">00</span><p class="timeRefDays">Days</p></li>
 		<li><span class="hours">00</span><p class="timeRefHours">Hours</p></li>
 		<li><span class="minutes">00</span><p class="timeRefMinutes">Minutes</p></li>
@@ -24,7 +26,7 @@
 </div>
 <script>
 	$(document).ready(function() {
-		$("#countdown").countdown({knob: false,date:'11/12/2013 18:01:30',format:true,callback:function(){alert('Ready')}},{timezone:false,offset:-11});
+		$(".countdown").countdown({knob: false,date:'11/12/2013 18:01:30',format:true,callback:function(){alert('Ready')}},{timezone:false,offset:-11});
 	});
 	</script>
 </body>

@@ -15,8 +15,10 @@
 
 </head>
 <body>
+<img src='css/logo/logo.png' style='display:block;margin:0 auto;position:relative' />
+<p style='text-align:center;font-size:2em;font-weight:700'><a href='//anthonyterrien.com/knob/'>Knob</a> Skin</h2>
 <div class="timer-area" >
-	<div id="countdown">
+	<div class="countdown">
 		<input class="days" type="text" value="0" data-readonly="true" data-thickness=".0"/>
 		<input class="hours" type="text" value="0" data-readonly="true" data-thickness=".0"  />
 		<input class="minutes" type="text" value="0" data-readonly="true" data-thickness=".0"/>
@@ -25,7 +27,7 @@
 </div>
 <script>
 	$(document).ready(function() {
-		$("#countdown").countdown({knob: true,date:'11/13/2013 18:01:30',format:true,callback:function(){alert('Ready')}},{timezone:true,offset:-11});
+		$(".countdown").countdown({knob: true,date:'01/25/2014 18:01:30',format:true,callback:function(){alert('Ready')}},{timezone:true,offset:-11});
 	});
 	</script>
 </body>
