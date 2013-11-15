@@ -5,7 +5,7 @@ Simple Jquery Countdown with redirect, time zone and double skin with fallback
 
 ## DEMO
 
-[DEMO LINK](//razorphyn.com/products/countdown/)
+[DEMO LINK](http://razorphyn.com/products/countdown/)
 
 ## Instructions
 
@@ -87,5 +87,7 @@ $("#countdown").countdown(
 							}
 						);
 ```
+
 For more details open ```countdown.js``` and for a list UTC read UTC.txt
+
 More information about Knob: [Read more](https://github.com/aterrien/jQuery-Knob)
