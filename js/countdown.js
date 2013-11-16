@@ -1,86 +1,111 @@
-/*!jQuery Countdown*/
+/*!jQuery Professional Countdown*/
 /**
- * Simple COuntdown with callback and Time Zone Support
+ * Simple Countdown with callback and Time Zone Support
  *
- * Version: 1.0.0 (12/11/2013)
+ * Version: 1.0.1 (16/11/2013)
  * Requires: jQuery v1.7+
  *
  * Where applicable: Copyright (c) 2013 Luca Grandi
  * Under MIT:
- *  http://www.opensource.org/licenses/mit-license.php
+ * http://www.opensource.org/licenses/mit-license.php
  *
  *
  */
 (function ($) {
     $.fn.countdown = function (c, f) {
         var b = {
-			knob		:	false,	//Use Knob true/false
-			option		:	{global:{max:null},day:{},hour:{},minute:{},second:{}},	//Knob Optoins
-            date		:	null,	//Date in this format: 'mm/dd/yyyy hh:mm:ss'
-            format		:	true,	//Print the number: 1 13 34... or format in this way: 01 02 12 34..
-			callback	:	null	//Callback on countdown finish, Example: redirect
+			skin			:	'countdown_default',	//Set Skin
+			fallbackSkin	:	'countdown_default',	//Skin for the older browser that doesn't support canvas; Default: countdown_default
+			option			:	{day:{max:null,eClass:'days'},hour:{max:23,eClass:'hours'},minute:{max:59,eClass:'minutes'},second:{max:59,eClass:'seconds'}},	//Skin Options, like Knob setting or different classes for the timer component
+            dateStart		:	null,	//Date in this format: 'mm/dd/yyyy hh:mm:ss'
+            dateEnd			:	null,	//Date in this format: 'mm/dd/yyyy hh:mm:ss'
+            format			:	true,	//One digit number transformde to: 01 02...
+			callback		:	null	//Callback on countdown finish, Example: redirect
         };
 		var g = {
             timezone	:	false,	//Activate the worldwide sync
             offset		:	0		//The UTC offset, you can find your UTC from UTC.txt, just copy and paste
         };
-        c && $.extend(b, c);
-        f && $.extend(g, f);
-		var eventDate = (new Date(b.date).getTime())/1E3;
+
+        c && $.extend(true,b, c);
+        f && $.extend(true,g, f);
+		
+		var eventDateEnd = (new Date(b.dateEnd).getTime())/1E3,
+			eventDateStart = (new Date(b.dateStart).getTime())/1E3,
+			now=new Date().getTime();
+		
+		if(isNaN(eventDateEnd)){
+			alert("Invalid or null dateEnd mm/dd/yyyy. Example: 12/25/2013 17:30:00"),
+			$(this).append("Invalid or null date mm/dd/yyyy. Example: 12/25/2013 17:30:00");
+			return ;
+		}
+		if('knob'==b.skin && (null==eventDateStart || isNaN(eventDateStart))){
+			alert("Invalid or null dateStart mm/dd/yyyy. Example: 12/25/2013 17:30:00"),
+			$(this).append("Invalid or null dateStart mm/dd/yyyy. Example: 12/25/2013 17:30:00");
+			return
+		}
+		else if(eventDateStart>now){
+			alert("Starting date is greater than the current date"),
+			$(this).append("Starting date is greater than the current date");
+			return
+		}
+
 		if(g.timezone==true)
 			g.offset=(parseInt(g.offset)*60*60*1000)+new Date().getTimezoneOffset()*60*1000;
-		
-		var thisEl = $(this);
-		if(0!=b.knob && isCanvasSupported){
-			thisEl.append('<div class="timer-area" ><input class="days" type="text" value="0" data-readonly="true" /><input class="hours" type="text" value="0" data-readonly="true"  /><input class="minutes" type="text" value="0" data-readonly="true" /><input class="seconds" type="text" value="0" data-readonly="true" /></div>');
 
-			b.option.day=$.extend(true, {}, c.option.global, c.option.day);
-			b.option.hour=$.extend(true,{}, c.option.global, c.option.hour);
-			b.option.minute=$.extend(true, {}, c.option.global, c.option.minute);
-			b.option.second=$.extend(true, {}, c.option.global, c.option.second);
-			
-			thisEl.find(".days").knob(b.option.day),
-			thisEl.find(".hours").knob(b.option.hour),
-			thisEl.find(".minutes").knob(b.option.minute),
-			thisEl.find(".seconds").knob(b.option.second)
+		var thisEl = $(this);
+
+		if("undefined" != typeof c.option && "undefined" == typeof c.option.global)
+			c.option.global={};
+
+		b.option.day=$.extend(true,{}, b.option.global, b.option.day);
+		b.option.hour=$.extend(true,{}, b.option.global, b.option.hour);
+		b.option.minute=$.extend(true,{}, b.option.global, b.option.minute);
+		b.option.second=$.extend(true,{}, b.option.global, b.option.second);
+
+		if('knob'==b.skin.toLowerCase() && isCanvasSupported){
+			b.skin=b.skin.toLowerCase();
+			thisEl.append('<input class="'+b.option.day.eClass+'" type="text" value="0" data-readonly="true" /><input class="'+b.option.hour.eClass+'" type="text" value="0" data-readonly="true"  /><input class="'+b.option.minute.eClass+'" type="text" value="0" data-readonly="true" /><input class="'+b.option.second.eClass+'" type="text" value="0" data-readonly="true" />');
+
+			b.option.day.max = Math.floor((eventDateEnd-eventDateStart) / 86400);
+			thisEl.find("."+b.option.day.eClass).knob(b.option.day),
+			thisEl.find("."+b.option.hour.eClass).knob(b.option.hour),
+			thisEl.find("."+b.option.minute.eClass).knob(b.option.minute),
+			thisEl.find("."+b.option.second.eClass).knob(b.option.second)
 		}
-		else if(0!=b.knob && !isCanvasSupported){
-			b.knob=0;
-			thisEl.html('<ul class="countdown"><li><span class="days">00</span><p class="timeRefDays">Days</p></li><li><span class="hours">00</span><p class="timeRefHours">Hours</p></li><li><span class="minutes">00</span><p class="timeRefMinutes">Minutes</p></li><li><span class="seconds">00</span><p class="timeRefSeconds">Seconds</p></li></ul>');
+		else if('knob'!=b.skin.toLowerCase() && !isCanvasSupported){
+			b.skin=b.fallbackSkin;
+			thisEl.html('<ul class="'+b.skin+'"><li><span class="'+b.option.day.eClass+'">00</span><p class="timeRefDays">Days</p></li><li><span class="'+b.option.hour.eClass+'">00</span><p class="timeRefHours">Hours</p></li><li><span class="'+b.option.minute.eClass+'">00</span><p class="timeRefMinutes">Minutes</p></li><li><span class="'+b.option.second.eClass+'">00</span><p class="timeRefSeconds">Seconds</p></li></ul>');
 		}
 		else
-			thisEl.append('<div class="timer-area"><ul class="countdown" ><li><span class="days">00</span><p class="timeRefDays">Days</p></li><li><span class="hours">00</span><p class="timeRefHours">Hours</p></li><li><span class="minutes">00</span><p class="timeRefMinutes">Minutes</p></li><li><span class="seconds">00</span><p class="timeRefSeconds">Seconds</p></li></ul></div>');
+			thisEl.append('<ul class="'+b.skin+'" ><li><span class="'+b.option.day.eClass+'">00</span><p class="timeRefDays">Days</p></li><li><span class="'+b.option.hour.eClass+'">00</span><p class="timeRefHours">Hours</p></li><li><span class="'+b.option.minute.eClass+'">00</span><p class="timeRefMinutes">Minutes</p></li><li><span class="'+b.option.second.eClass+'">00</span><p class="timeRefSeconds">Seconds</p></li></ul>');
+
+        var input_day=thisEl.find("."+b.option.day.eClass),
+			input_hour=thisEl.find("."+b.option.hour.eClass),
+			input_minute=thisEl.find("."+b.option.minute.eClass),
+			input_second=thisEl.find("."+b.option.second.eClass);
 		
-		var	input_day=thisEl.find(".days"),
-			input_hour=thisEl.find(".hours"),
-			input_minute=thisEl.find(".minutes"),
-			input_second=thisEl.find(".seconds");
-        e();
-        var interval = setInterval( function(){e()}, 1E3);
-		if(isNaN(eventDate)){
-			alert("Invalid date mm/dd/yyyy. Here's an example: 12/25/2013 17:30:00"), clearInterval(interval)
-		}
-		
+		e();
+		if(eventDateEnd> new Date().getTime()/1E3)
+			var	interval = setInterval( function(){e()}, 1E3);
+
 		//Countdown Function
 		function e() {
             currentDate = Math.floor((new Date().getTime()-g.offset)/1E3);
-            if(eventDate < currentDate){
+            if(eventDateEnd < currentDate){
 				null != b.callback && (b.callback).call(this), 
 				"undefined" != typeof interval && clearInterval(interval)
 			}
 			else{
-				seconds = (eventDate - currentDate), 
+				seconds = (eventDateEnd - currentDate), 
 				days = Math.floor(seconds / 86400), 
 				seconds -= 86400 * days, 
 				hours = Math.floor(seconds / 3600), 
 				seconds -= 3600 * hours, 
 				minutes = Math.floor(seconds / 60), 
-				seconds -= 60 * minutes, 
-				1 == days ? thisEl.find(".timeRefDays").text('Day') : thisEl.find(".timeRefDays").text('Days'), 
-				1 == hours ? thisEl.find(".timeRefHours").text('Hour') : thisEl.find(".timeRefHours").text('Hours'), 
-				1 == minutes ? thisEl.find(".timeRefMinutes").text('Minute') : thisEl.find(".timeRefMinutes").text('Minutes'), 
-				1 == seconds ? thisEl.find(".timeRefSeconds").text('Second') : thisEl.find(".timeRefSeconds").text('Seconds');
-				if(1!=b.knob){
+				seconds -= 60 * minutes;
+
+				if('knob'!=b.skin){
 					if(0!=b.format){
 						days = 2 <= String(days).length ? days : "0" + days, 
 						hours = 2 <= String(hours).length ? hours : "0" + hours, 
@@ -90,10 +115,16 @@
 					input_day.text(days), 
 					input_hour.text(hours), 
 					input_minute.text(minutes), 
-					input_second.text(seconds)
+					input_second.text(seconds);
+
+					1 == days ? input_day.parent().children(".timeRefDays").text('Day') : input_day.parent().children(".timeRefDays").text('Days'), 
+					1 == hours ? input_hour.parent().children(".timeRefHours").text('Hour') : input_hour.parent().children(".timeRefHours").text('Hours'), 
+					1 == minutes ? input_minute.parent().children(".timeRefMinutes").text('Minute') : input_minute.parent().children(".timeRefMinutes").text('Minutes'), 
+					1 == seconds ? input_second.parent().children(".timeRefSeconds").text('Second') : input_second.parent().children(".timeRefSeconds").text('Seconds')
+
 				}
 				else{
-					input_day.val(days+' Days').trigger('change'),
+					input_day.val(days).trigger('change'),
 					input_hour.val(hours).trigger('change'), 
 					input_minute.val(minutes).trigger('change'),
 					input_second.val(seconds).trigger('change')
