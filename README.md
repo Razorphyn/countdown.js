@@ -33,25 +33,20 @@ If you want to use Knob:
 
 ```javascript
 $("#countdown").countdown(
-								{
-									skin			:	'countdown_default',	//Set Skin. Default: countdown_default
-									fallbackSkin	:	'countdown_default',	//Skin for the older browser that doesn't support canvas; Default: countdown_default
-									option			:	{	//Skin Options, like Knob setting or different classes for the timer component
-															global:{},//Apply to every timer section
-															day:{max:null,eClass:'days'},//Apply to day timer section (overwrite or extend the global options)
-															hour:{max:23,eClass:'hours'},//Apply to hour timer section (overwrite or extend the global options)
-															minute:{max:59,eClass:'minutes'},//Apply to minute timer section (overwrite or extend the global options)
-															second:{max:59,eClass:'seconds'}//Apply to second timer section (overwrite or extend the global options)
-														},	
-									dateStart		:	null,	//Date in this format: 'mm/dd/yyyy hh:mm:ss'. Required for Knob Skin
-									dateEnd			:	null,	//Date in this format: 'mm/dd/yyyy hh:mm:ss'
-									format			:	true,	//One digit number transformed to: 01 02...
-									callback		:	null	//Callback on countdown finish, Example: redirect
+								skin: "countdown_default", //First Loaded Skin, use knob to use the knob Plugin
+								fallbackSkin: "countdown_default", //Use this if the first one is not supported
+								option: {
+									day: {max: null,eClass: "days"}, //Option for Days label
+									hour: {max: 23,eClass: "hours"}, //Option for Hours label
+									minute: {max: 59,eClass: "minutes"}, //Option Minutes Day label
+									second: {max: 59,eClass: "seconds"} //Option for Seconds label
 								},
-								{
-									timezone	:	false,	//Activate the worldwide sync
-									offset		:	0		//The UTC offset, you can find your UTC from UTC.txt, just copy and paste
-								}
+								dateStart: null, 	//Starting date; Fomat: string -> mm/dd/yyyy hh:mm:ss OR Array (Month,Day,Year(yyyy),Hour,Minute,Second)
+								dateEnd: null, 		//Ending date; Fomat: string -> mm/dd/yyyy hh:mm:ss OR Array (Month,Day,Year(yyyy),Hour,Minute,Second)
+								format: !0,			//Add zero to single digit 01 03 05...12 15 48..
+								callback: null,		//Called function once the countdown id finished
+								timezone: false,	//Use offset
+								offset: 0			//Check UTC.txt to choose your UTC
 							);
 ```
 
@@ -63,9 +58,6 @@ $("#countdown").countdown(
 									dateEnd:'11/12/2012 18:01:30',
 									format:true,
 									callback:function(){alert('Site Ready')}
-								},
-								{
-									timezone:false
 								}
 							);
 //Use Knob Skin
@@ -81,15 +73,29 @@ $("#countdown").countdown(
 									dateEnd:'05/19/2015 18:01:30',
 									dateStart:'01/19/2012 18:01:30',
 									format:true,
-									callback:function(){alert('Site Ready')}
-								},
-								{
+									callback:function(){alert('Site Ready')},
 									timezone:true,
 									offset:6
 								}
 							);
 ```
+###Change Dinamically the options:
 
+```javascript
+$("#countdown_knob").trigger('configure',options)
+
+//Example
+```javascript
+$("#countdown_knob").trigger('configure',{dateEnd:'09/23/2014 12:56:00'})
+
+```
+
+###Destroy COuntdown
+
+```javascript
+$("#countdown_knob").trigger('destroy')
+
+```
 For more details open ```countdown.js``` and for a list UTC read UTC.txt
 
 More information about Knob: [Read more](https://github.com/aterrien/jQuery-Knob)

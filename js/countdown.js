@@ -15,7 +15,26 @@
 	}
 
 	b.fn.countdown = function (d) {
+		
+		var a = {
+			skin: "countdown_default", //First Loaded Skin, use knob to use the knob Plugin
+			fallbackSkin: "countdown_default", //Use this if the first one is not supported
+			option: {
+				day: {max: null,eClass: "days"}, //Option for Days label
+				hour: {max: 23,eClass: "hours"}, //Option for Hours label
+				minute: {max: 59,eClass: "minutes"}, //Option Minutes Day label
+				second: {max: 59,eClass: "seconds"} //Option for Seconds label
+			},
+			dateStart: null, 	//Starting date; Fomat: string -> mm/dd/yyyy hh:mm:ss OR Array (Month,Day,Year(yyyy),Hour,Minute,Second)
+			dateEnd: null, 		//Ending date; Fomat: string -> mm/dd/yyyy hh:mm:ss OR Array (Month,Day,Year(yyyy),Hour,Minute,Second)
+			format: !0,			//Add zero to single digit 01 03 05...12 15 48..
+			callback: null,		//Called function once the countdown id finished
+			timezone: false,	//Use offset
+			offset: 0			//Check UTC.txt to choose your UTC
+		};
 
+		d && b.extend(true, a, d);
+		
 		function draw_clock() {
 			if("knob" == a.skin.toLowerCase() && isCanvasSupported()){
 				a.skin = a.skin.toLowerCase(), 
@@ -96,25 +115,6 @@
 				input_second.val(seconds).trigger("change")
 			}
 		}
-		
-		var a = {
-			skin: "countdown_default",
-			fallbackSkin: "countdown_default",
-			option: {
-				day: {max: null,eClass: "days"},
-				hour: {max: 23,eClass: "hours"},
-				minute: {max: 59,eClass: "minutes"},
-				second: {max: 59,eClass: "seconds"}
-			},
-			dateStart: null,
-			dateEnd: null,
-			format: !0,
-			callback: null,
-			timezone: !1,
-			offset: 0
-		};
-
-		d && b.extend(true, a, d);
 
 		if("string" == typeof a.dateEnd){
 			datEnd = a.dateEnd.split(" "), 
