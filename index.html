@@ -8,16 +8,50 @@
 <link rel="stylesheet" type="text/css" href="css/countdown.css"/>
 
 <script type="text/javascript"  src="js/jquery-1.10.2.js"></script>
-<script type="text/javascript"  src="js/jquery.knob.min.js"></script>
+<script type="text/javascript"  src="js/jquery.knob.js"></script>
 <script type="text/javascript"  src="js/countdown.js"></script>
 
 </head>
 <body>
 	<img src='css/logo/logo.png' style='display:block;margin:0 auto;position:relative' />
 	<p style='text-align:center;font-size:2em;font-weight:700'>Default/Callback Skin</p>
+	<pre>
+	$("#countdown_def").countdown(	
+		{
+			dateEnd:'05/18/2014 13:10:00',
+			format:true,
+			timezone:false,
+			offset:0
+		}
+	);
+	After 10 Seconds change the end data
+	setTimeout(function(){$("#countdown_def").trigger('configure',{dateEnd:'08/23/2014 12:56:00'});},2000);
+	</pre>
 	<div id='countdown_def' class='timerArea' ></div>
 	<br/>
 	<p style='display:block;text-align:center;font-size:2em;font-weight:700'><a href='//anthonyterrien.com/knob/'>Knob</a> Skin</p>
+	<pre>
+	$("#countdown_knob").countdown(
+		{
+			skin: 'knob',
+			option:{
+				global:{thickness:0.1},
+				day:{thickness:0.2},
+				hour:{thickness:0.4},
+				second:{thickness:0.01}
+			},
+			dateEnd:'05/19/2015 18:01:30',
+			dateStart:'01/19/2012 18:01:30',
+			format:true,
+			timezone:true,
+			offset:6
+		}
+	);
+	
+	After 10 Seconds change the end data
+	setTimeout(function(){$("#countdown_knob").trigger('configure',{dateEnd:'05/23/2014 12:56:00'});},10000);
+	
+	</pre>
 	<div id='countdown_knob' class='timerArea' ></div>
 	
 	
@@ -25,11 +59,8 @@
 		$(document).ready(function() {
 			$("#countdown_def").countdown(	
 											{
-												dateEnd:'11/12/2014 18:01:30',
+												dateEnd:'05/18/2014 13:10:00',
 												format:true,
-												callback:function(){alert('Def Ready')}
-											},
-											{
 												timezone:false,
 												offset:0
 											}
@@ -42,18 +73,18 @@
 														global:{thickness:0.1},
 														day:{thickness:0.2},
 														hour:{thickness:0.4},
-														second:{thickness:.0}
+														second:{thickness:0.01}
 													},
 												dateEnd:'05/19/2015 18:01:30',
 												dateStart:'01/19/2012 18:01:30',
 												format:true,
-												callback:function(){alert('Knob Ready')}
-											},
-											{
 												timezone:true,
 												offset:6
 											}
 										);
+
+			setTimeout(function(){$("#countdown_knob").trigger('configure',{dateEnd:'02/23/2014 12:56:00'});},2000);
+			setTimeout(function(){$("#countdown_def").trigger('configure',{dateEnd:'02/23/2014 12:56:00'});},2000);
 		});
 	</script>
 </body>
