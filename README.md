@@ -41,8 +41,8 @@ $("#countdown").countdown(
 									minute: {max: 59,eClass: "minutes"}, //Option Minutes Day label
 									second: {max: 59,eClass: "seconds"} //Option for Seconds label
 								},
-								dateStart: null, 	//Starting date; Fomat: string -> mm/dd/yyyy hh:mm:ss OR Array (Month,Day,Year(yyyy),Hour,Minute,Second)
-								dateEnd: null, 		//Ending date; Fomat: string -> mm/dd/yyyy hh:mm:ss OR Array (Month,Day,Year(yyyy),Hour,Minute,Second)
+								dateStart: null, 	//Starting date; Fomat: string -> mm/dd/yyyy hh:mm:ss OR Array [Month,Day,Year(yyyy),Hour,Minute,Second]
+								dateEnd: null, 		//Ending date; Fomat: string -> mm/dd/yyyy hh:mm:ss OR Array [Month,Day,Year(yyyy),Hour,Minute,Second]
 								format: !0,			//Add zero to single digit 01 03 05...12 15 48..
 								callback: null,		//Called function once the countdown id finished
 								timezone: false,	//Use offset

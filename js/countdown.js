@@ -25,8 +25,8 @@
 				minute: {max: 59,eClass: "minutes"}, //Option Minutes Day label
 				second: {max: 59,eClass: "seconds"} //Option for Seconds label
 			},
-			dateStart: null, 	//Starting date; Fomat: string -> mm/dd/yyyy hh:mm:ss OR Array (Month,Day,Year(yyyy),Hour,Minute,Second)
-			dateEnd: null, 		//Ending date; Fomat: string -> mm/dd/yyyy hh:mm:ss OR Array (Month,Day,Year(yyyy),Hour,Minute,Second)
+			dateStart: null, 	//Starting date; Fomat: string -> mm/dd/yyyy hh:mm:ss OR Array [Month,Day,Year(yyyy),Hour,Minute,Second]
+			dateEnd: null, 		//Ending date; Fomat: string -> mm/dd/yyyy hh:mm:ss OR Array [Month,Day,Year(yyyy),Hour,Minute,Second]
 			format: !0,			//Add zero to single digit 01 03 05...12 15 48..
 			callback: null,		//Called function once the countdown id finished
 			timezone: false,	//Use offset
@@ -35,7 +35,7 @@
 
 		d && b.extend(true, a, d);
 		
-		function draw_clock() {
+		function initialize_clock() {
 			if("knob" == a.skin.toLowerCase() && isCanvasSupported()){
 				a.skin = a.skin.toLowerCase(), 
 				thisEl.append('<input class="' + a.option.day.eClass + '" type="text" value="0" data-readonly="true" /><input class="' + a.option.hour.eClass + '" type="text" value="0" data-readonly="true" /><input class="' + a.option.minute.eClass + '" type="text" value="0" data-readonly="true" /><input class="' + a.option.second.eClass + '" type="text" value="0" data-readonly="true" />'), 
@@ -81,14 +81,18 @@
 		function r() {
 			currentDate = ((new Date).getTime() - a.offset) / 1E3;
 			if(endDate < currentDate){
-				null != a.callback && a.callback.call(this), 
-				"undefined" != typeof q && clearInterval(q), 
-				seconds = minutes = hours = days = 0
+				clearInterval(intervall_id),
+				intervall_id=null,
+				seconds = minutes = hours = days = 0;
+				if(null != a.callback){
+					a.callback.call(this);
+				}
+				return;
 			}
 			else{
 				seconds = Math.floor(endDate - currentDate), 
 				days = Math.floor(seconds / 86400), 
-				seconds -= 86400 * days, 
+				seconds -= 86400 * days,
 				hours = Math.floor(seconds / 3600), 
 				seconds -= 3600 * hours, 
 				minutes = Math.floor(seconds / 60), 
@@ -117,45 +121,51 @@
 		}
 
 		if("string" == typeof a.dateEnd){
-			datEnd = a.dateEnd.split(" "), 
-			datEnd[0] = datEnd[0].split("/"), 
-			datEnd[1] = datEnd[1].split(":"), 
-			datEnd = datEnd[0].concat(datEnd[1])
+			a.dateEnd = a.dateEnd.split(" "), 
+			a.dateEnd[0] = a.dateEnd[0].split("/"), 
+			a.dateEnd[1] = a.dateEnd[1].split(":"), 
+			a.dateEnd = a.dateEnd[0].concat(a.dateEnd[1])
 		}
+		
 		if(null != a.dateStart && "string" == typeof a.dateStart){
-			datStart = a.dateStart.split(" "), 
-			datStart[0] = datStart[0].split("/"), 
-			datStart[1] = datStart[1].split(":"), 
-			datStart = datStart[0].concat(datStart[1])
+			a.dateStart = a.dateStart.split(" "), 
+			a.dateStart[0] = a.dateStart[0].split("/"), 
+			a.dateStart[1] = a.dateStart[1].split(":"), 
+			a.dateStart = a.dateStart[0].concat(a.dateStart[1])
 		}
+		
 		var thisEl = b(this),
-			endDate = (new Date(datEnd[2], datEnd[0] - 1, datEnd[1], datEnd[3], datEnd[4], datEnd[5])).getTime()/1E3,
-			startDate = null != a.dateStart ? (new Date(datStart[2], datStart[0] - 1, datStart[1], datStart[3], datStart[4], datStart[5])).getTime()/1E3 : null,
+			endDate = (new Date(a.dateEnd[2], a.dateEnd[0] - 1, a.dateEnd[1], a.dateEnd[3], a.dateEnd[4], a.dateEnd[5])).getTime()/1E3,
+			startDate = null != a.dateStart ? (new Date(a.dateStart[2], a.dateStart[0] - 1, a.dateStart[1], a.dateStart[3], a.dateStart[4], a.dateStart[5])).getTime()/1E3 : null,
+			now=(new Date).getTime()/1E3,
+			intervall_id,
 			input_day, 
 			input_hour, 
 			input_minute, 
 			input_second;
 		
 		thisEl.bind("configure", function (d, f) {
+			var now=(new Date).getTime()/1E3;
 			
-			var ClassCheck=("undefined"!=typeof f.skin && thisEl.children('.'+a.skin).hasClass(f.skin))? true:false;
 			f && b.extend(true, a, f);
-
+			
+			
 			if("string" == typeof a.dateEnd){
-				datEnd = a.dateEnd.split(" "), 
-				datEnd[0] = datEnd[0].split("/"), 
-				datEnd[1] = datEnd[1].split(":"), 
-				datEnd = datEnd[0].concat(datEnd[1])
+				a.dateEnd = a.dateEnd.split(" "), 
+				a.dateEnd[0] = a.dateEnd[0].split("/"), 
+				a.dateEnd[1] = a.dateEnd[1].split(":"), 
+				a.dateEnd = a.dateEnd[0].concat(a.dateEnd[1])
 			}
 			if(null != a.dateStart && "string" == typeof a.dateStart){
-				datStart = a.dateStart.split(" "), 
-				datStart[0] = datStart[0].split("/"), 
-				datStart[1] = datStart[1].split(":"), 
-				datStart = datStart[0].concat(datStart[1])
+				a.dateStart = a.dateStart.split(" "), 
+				a.dateStart[0] = a.dateStart[0].split("/"), 
+				a.dateStart[1] = a.dateStart[1].split(":"), 
+				a.dateStart = a.dateStart[0].concat(a.dateStart[1])
 			}
-			endDate = (new Date(datEnd[2], datEnd[0] - 1, datEnd[1], datEnd[3], datEnd[4], datEnd[5])).getTime()/1E3,
-			startDate = null != a.dateStart ? (new Date(datStart[2], datStart[0] - 1, datStart[1], datStart[3], datStart[4], datStart[5])).getTime()/1E3 : null;
-			
+
+			endDate = (new Date(a.dateEnd[2], a.dateEnd[0] - 1, a.dateEnd[1], a.dateEnd[3], a.dateEnd[4], a.dateEnd[5])).getTime()/1E3,
+			startDate = null != a.dateStart ? (new Date(a.dateStart[2], a.dateStart[0] - 1, a.dateStart[1], a.dateStart[3], a.dateStart[4], a.dateStart[5])).getTime()/1E3 : null;
+
 			if(!0 == a.timezone && null != f.offset){
 				a.offset = 36E5 * parseInt(a.offset) + 6E4 * (new Date).getTimezoneOffset()
 			}
@@ -163,31 +173,51 @@
 			if("undefined" != typeof f.option && "undefined" == typeof f.option.global){
 				f.option.global = {}
 			}
-			a.option.day = b.extend(!0, {}, a.option.global, a.option.day);
-			a.option.hour = b.extend(!0, {}, a.option.global, a.option.hour);
-			a.option.minute = b.extend(!0, {}, a.option.global, a.option.minute);
-			a.option.second = b.extend(!0, {}, a.option.global, a.option.second);
+			a.option.day = b.extend(true, {}, a.option.global, a.option.day);
+			a.option.hour = b.extend(true, {}, a.option.global, a.option.hour);
+			a.option.minute = b.extend(true, {}, a.option.global, a.option.minute);
+			a.option.second = b.extend(true, {}, a.option.global, a.option.second);
+
 			if("knob" == a.skin.toLowerCase() && isCanvasSupported()){
 				a.option.day.eClass = a.option.day.eClass.substring(1).split(".").join(" "), 
 				a.option.hour.eClass = a.option.hour.eClass.substring(1).split(".").join(" "), 
 				a.option.minute.eClass = a.option.minute.eClass.substring(1).split(".").join(" "), 
 				a.option.second.eClass = a.option.second.eClass.substring(1).split(".").join(" "), 
 				thisEl.children().remove(), 
-				draw_clock()
+				initialize_clock()
 			}
-			else{
-				a.skin=a.fallbackSkin,
+			else if("knob" == a.skin.toLowerCase() && !isCanvasSupported()){
+				a.skin=a.fallbackSkin;
 				a.option.day.eClass = a.option.day.eClass.substring(1).split(".").join(" "), 
 				a.option.hour.eClass = a.option.hour.eClass.substring(1).split(".").join(" "), 
 				a.option.minute.eClass = a.option.minute.eClass.substring(1).split(".").join(" "), 
 				a.option.second.eClass = a.option.second.eClass.substring(1).split(".").join(" "), 
 				thisEl.children().remove(), 
-				draw_clock()
+				initialize_clock()
+			}
+			else{
+				a.option.day.eClass = a.option.day.eClass.substring(1).split(".").join(" "), 
+				a.option.hour.eClass = a.option.hour.eClass.substring(1).split(".").join(" "), 
+				a.option.minute.eClass = a.option.minute.eClass.substring(1).split(".").join(" "), 
+				a.option.second.eClass = a.option.second.eClass.substring(1).split(".").join(" "), 
+				thisEl.children().remove(), 
+				initialize_clock()
+			}
+			
+			if(typeof intervall_id!='undefined' && intervall_id!=null){
+				clearInterval(intervall_id)
+			}
+
+			if(endDate > now) {
+				intervall_id = setInterval(function () {r()}, 1E3);
+			}
+			else{
+				null != a.callback && a.callback.call(this);
 			}
 		});
 
 		thisEl.bind("destroy", function () {
-			clearInterval(thisEl.attr("interval-id"));
+			clearInterval(intervall_id);
 			thisEl.remove()
 		});
 
@@ -211,17 +241,19 @@
 				a.option.hour = b.extend(true, {}, a.option.global, a.option.hour), 
 				a.option.minute = b.extend(true, {}, a.option.global, a.option.minute), 
 				a.option.second = b.extend(true, {}, a.option.global, a.option.second), 
-				draw_clock();
-				if(endDate > (new Date).getTime() / 1E3) {
-					var q = setInterval(function () {r()}, 1E3);
-					thisEl.attr("interval-id", q)
-				} 
-				else null != a.callback && a.callback.call(this);
+				initialize_clock();
 			}
 		}
 		else{
 			alert("Invalid or null dateStart mm/dd/yyyy. Example: 12/25/2013 17:30:00"),
 			thisEl.append("Invalid or null dateStart mm/dd/yyyy. Example: 12/25/2013 17:30:00")
+		}
+		
+		if(endDate > now) {
+			intervall_id = setInterval(function () {r()}, 1E3);
+		}
+		else{
+			null != a.callback && a.callback.call(this);
 		}
 	}
 })(jQuery);
