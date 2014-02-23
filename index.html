@@ -17,15 +17,15 @@
 	<p style='text-align:center;font-size:2em;font-weight:700'>Default/Callback Skin</p>
 	<pre>
 	$("#countdown_def").countdown(	
-		{
-			dateEnd:'05/18/2014 13:10:00',
-			format:true,
-			timezone:false,
-			offset:0
-		}
-	);
-	After 10 Seconds change the end data
-	setTimeout(function(){$("#countdown_def").trigger('configure',{dateEnd:'10/23/2014 12:56:00'});},10000);
+			{
+				dateEnd:[2,23,2014,9,32,00],
+				format:true
+			}
+		);
+	
+	//Create a date array and change the date after 5 seconds
+	var d = new Date(),datearr=[d.getMonth()+3,d.getDate()+1,d.getFullYear(),d.getHours(),d.getMinutes(),d.getSeconds()];
+	setTimeout(function(){$("#countdown_def").trigger('configure',{dateEnd:datearr});},5000);
 	</pre>
 	<div id='countdown_def' class='timerArea' ></div>
 	<br/>
@@ -59,10 +59,8 @@
 		$(document).ready(function() {
 			$("#countdown_def").countdown(	
 											{
-												dateEnd:'05/18/2014 13:10:00',
-												format:true,
-												timezone:false,
-												offset:0
+												dateEnd:[2,23,2014,9,32,00],
+												format:true
 											}
 										);
 
@@ -84,7 +82,8 @@
 										);
 
 			setTimeout(function(){$("#countdown_knob").trigger('configure',{dateEnd:'09/23/2014 12:56:00'});},10000);
-			setTimeout(function(){$("#countdown_def").trigger('configure',{skin:'knob',dateEnd:'10/23/2014 12:56:00'});},10000);
+			var d = new Date(),datearr=[d.getMonth()+3,d.getDate()+1,d.getFullYear(),d.getHours(),d.getMinutes(),d.getSeconds()];
+			setTimeout(function(){$("#countdown_def").trigger('configure',{dateEnd:datearr});},5000);
 		});
 	</script>
 </body>
